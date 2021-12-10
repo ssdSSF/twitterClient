@@ -73,8 +73,15 @@ public class TwitterClient {
             + URLEncoder.encode(parameters.get(e), StandardCharsets.UTF_8) + "\"").collect(Collectors.joining(","));
   }
 
+  public static HttpResponse<String> postHttpResponse(Map<String, String> params, String baseURL) throws IOException, InterruptedException, NoSuchAlgorithmException, InvalidKeyException {
+    String oauthConsumerKey = System.getProperty("oauthConsumerKey"); //"l6pOJdaJF0gt7BWeVTNHoIKLr";
+    String consumerSecret = System.getProperty("consumerSecret"); //"LWrxMteMHkRLRB3lytwFC1jVDl1qdjN7JZornvWreepmInMQMM";
+    String oauthToken = System.getProperty("oauthToken"); // "193722284-ohWgdTTTlJJKzWIxOytJP4KyX1WvKfeTJo0j10tJ";
+    String oauthTokenSecret = System.getProperty("oauthTokenSecret"); //"yNc15fZl0dchhtMpNpFgOwAcdsJb1G0OsYcA1KIQaFtVO";
+    return postHttpResponse(oauthConsumerKey, consumerSecret, oauthToken, oauthTokenSecret, params, baseURL);
+  }
 
-  private static HttpResponse<String> postHttpResponse(String oauthConsumerKey, String consumerSecret, String oauthToken, String oauthTokenSecret, Map<String, String> params, String baseURL) throws IOException, InterruptedException, NoSuchAlgorithmException, InvalidKeyException {
+  public static HttpResponse<String> postHttpResponse(String oauthConsumerKey, String consumerSecret, String oauthToken, String oauthTokenSecret, Map<String, String> params, String baseURL) throws IOException, InterruptedException, NoSuchAlgorithmException, InvalidKeyException {
     final URI uri;
     if (params.size() == 0) {
       uri = URI.create(baseURL);
@@ -91,7 +98,7 @@ public class TwitterClient {
         .build(), HttpResponse.BodyHandlers.ofString());
   }
 
-  private static HttpResponse<String> getHttpResponse(String oauthConsumerKey, String consumerSecret, String oauthToken, String oauthTokenSecret, Map<String, String> params, String baseURL) throws IOException, InterruptedException, NoSuchAlgorithmException, InvalidKeyException {
+  public static HttpResponse<String> getHttpResponse(String oauthConsumerKey, String consumerSecret, String oauthToken, String oauthTokenSecret, Map<String, String> params, String baseURL) throws IOException, InterruptedException, NoSuchAlgorithmException, InvalidKeyException {
     final URI uri;
     if (params.size() == 0) {
       uri = URI.create(baseURL);
@@ -109,10 +116,10 @@ public class TwitterClient {
   }
 
   public static void main(String[] args) throws InvalidKeyException, NoSuchAlgorithmException, IOException, InterruptedException {
-    String oauthConsumerKey = "l6pOJdaJF0gt7BWeVTNHoIKLr";
-    String consumerSecret = "LWrxMteMHkRLRB3lytwFC1jVDl1qdjN7JZornvWreepmInMQMM";
-    String oauthToken = "193722284-ohWgdTTTlJJKzWIxOytJP4KyX1WvKfeTJo0j10tJ";
-    String oauthTokenSecret = "yNc15fZl0dchhtMpNpFgOwAcdsJb1G0OsYcA1KIQaFtVO";
+    String oauthConsumerKey = System.getProperty("oauthConsumerKey"); //"l6pOJdaJF0gt7BWeVTNHoIKLr";
+    String consumerSecret = System.getProperty("consumerSecret"); //"LWrxMteMHkRLRB3lytwFC1jVDl1qdjN7JZornvWreepmInMQMM";
+    String oauthToken = System.getProperty("oauthToken"); // "193722284-ohWgdTTTlJJKzWIxOytJP4KyX1WvKfeTJo0j10tJ";
+    String oauthTokenSecret = System.getProperty("oauthTokenSecret"); //"yNc15fZl0dchhtMpNpFgOwAcdsJb1G0OsYcA1KIQaFtVO";
     Map<String, String> queryParams = new HashMap<>();
     //queryParams.put("oauth_callback", "http://localhost:8080/twitterCallback");
     queryParams.put("oauth_callback", "oob");
@@ -145,5 +152,4 @@ public class TwitterClient {
     final HttpResponse<String> httpResponse = postHttpResponse(oauthConsumerKey, consumerSecret, oauthToken, oauthTokenSecret, params, statusesURL);
     System.out.println(httpResponse.body());
   }
-
 }
