@@ -6,6 +6,7 @@ pom.xml.next
 *.iml
 *.swp
 .idea/
+*.keystore
 release.properties
 dependency-reduced-pom.xml
 buildNumber.properties

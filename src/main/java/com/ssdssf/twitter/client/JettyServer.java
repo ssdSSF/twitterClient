@@ -11,12 +11,14 @@ import org.eclipse.jetty.util.ssl.SslContextFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import static com.ssdssf.twitter.client.TwitterConstants.getKeyStorePassword;
+
 public class JettyServer {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(JettyServer.class);
 
   public void start() throws Exception {
-    int port = 80;
+    int port = 8080;
     Server server = new Server(port);
     ServletHandler servletHandler = new ServletHandler();
     servletHandler.addServletWithMapping(LoginServlet.class, "/login");
@@ -24,23 +26,23 @@ public class JettyServer {
     server.setHandler(servletHandler);
     // The HTTP configuration object.
     HttpConfiguration httpConfig = new HttpConfiguration();
-// Add the SecureRequestCustomizer because we are using TLS.
+    // Add the SecureRequestCustomizer because we are using TLS.
     httpConfig.addCustomizer(new SecureRequestCustomizer());
 
-// The ConnectionFactory for HTTP/1.1.
+    // The ConnectionFactory for HTTP/1.1.
     HttpConnectionFactory http11 = new HttpConnectionFactory(httpConfig);
 
-// Configure the SslContextFactory with the keyStore information.
+    // Configure the SslContextFactory with the keyStore information.
     SslContextFactory.Server sslContextFactory = new SslContextFactory.Server();
     sslContextFactory.setKeyStorePath("server.keystore");
-    sslContextFactory.setKeyStorePassword("Welcome1");
+    sslContextFactory.setKeyStorePassword(getKeyStorePassword());
     sslContextFactory.setTrustAll(true);
     sslContextFactory.setEndpointIdentificationAlgorithm(null);
 
-// The ConnectionFactory for TLS.
+    // The ConnectionFactory for TLS.
     SslConnectionFactory tls = new SslConnectionFactory(sslContextFactory, http11.getProtocol());
 
-// The ServerConnector instance.
+    // The ServerConnector instance.
     ServerConnector connector = new ServerConnector(server, tls, http11);
     connector.setPort(443);
 
