@@ -25,4 +25,20 @@ public class TwitterConstants {
   public static String getKeyStorePassword() {
     return System.getProperty("keyStorePassword");
   }
+
+  public static String treeHoleOAuthToken() {
+    return System.getProperty("treeHoleOAuthToken");
+  }
+
+  public static String treeHoleOAuthTokenSecret() {
+    return System.getProperty("treeHoleOAuthTokenSecret");
+  }
+
+  public static String recaptchaSiteKey() {
+    return System.getProperty("recaptchaSiteKey");
+  }
+
+  public static String recaptchaSiteSecret() {
+    return System.getProperty("recaptchaSiteSecret");
+  }
 }

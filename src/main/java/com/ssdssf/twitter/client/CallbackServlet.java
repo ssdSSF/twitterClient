@@ -104,7 +104,7 @@ public class CallbackServlet extends HttpServlet {
         insert.setString(5, session);
         insert.executeUpdate();
       }
-      resp.getWriter().println(response.body());
+      resp.getWriter().println("<html>" + response.body() + "</html>");
     } catch (SQLException throwables) {
 
       resp.sendError(500, "SQLException");

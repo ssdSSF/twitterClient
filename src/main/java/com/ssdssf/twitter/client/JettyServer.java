@@ -18,11 +18,12 @@ public class JettyServer {
   private static final Logger LOGGER = LoggerFactory.getLogger(JettyServer.class);
 
   public void start() throws Exception {
-    int port = 8080;
+    int port = 80;
     Server server = new Server(port);
     ServletHandler servletHandler = new ServletHandler();
     servletHandler.addServletWithMapping(LoginServlet.class, "/login");
     servletHandler.addServletWithMapping(CallbackServlet.class, "/callback");
+    servletHandler.addServletWithMapping(TreeHole.class, "/treeHole");
     server.setHandler(servletHandler);
     // The HTTP configuration object.
     HttpConfiguration httpConfig = new HttpConfiguration();
